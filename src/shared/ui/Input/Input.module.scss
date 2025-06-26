@@ -1,0 +1,15 @@
+@use '@/styles/variables' as *;
+
+.input {
+	width: 100%;
+	background-color: $gray-950;
+	border: none;
+	color: $gray-100;
+	padding: 10px;
+	border-radius: 15px;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 100%;
+	letter-spacing: 0%;
+	font-family: var(--font-inter);
+}
