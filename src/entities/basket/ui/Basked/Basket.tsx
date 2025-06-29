@@ -1,81 +1,49 @@
-import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
-import { createOrder } from '../../model/api';
+import { Button } from '@/shared/ui';
 import { useOrderStore } from '@/entities/basket';
-import { Button, Input, Modal } from '@/shared/ui';
+import { PhoneMask } from '../PhoneMask/PhoneMask';
 import { TableGoods } from '../TableGoods/TableGoods';
+import { useSubmitOrder } from '../../lib/useSubmitOrder';
+import { FormValues } from '../../model/types';
 import { BASKET_MESSAGES } from '../../consts/messages';
-import { FormValues, CartIdQuantity, Status } from '../../model/types';
 
 import styles from './Basket.module.scss';
+import { ModalBasked } from '../ModalBasked/ModalBasked';
 
 export const Basket = () => {
 	const {
 		reset,
-		register,
+		control,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<FormValues>({
-		mode: 'all',
+		mode: 'onBlur',
 		defaultValues: { phone: '' },
 	});
 
-	const [status, setStatus] = useState<Status>('idle');
+	const { status, setStatus, submitOrder } = useSubmitOrder({ reset });
 
-	const basketStore = useOrderStore((store) => store.cart);
+	const cart = useOrderStore((state) => state.cart);
+	const clearCart = useOrderStore((state) => state.clearCart);
 
-	const isFormDisabled =
-		Object.keys(errors).length > 0 || status === 'loading' || basketStore.length === 0;
-
-	const disableClearButton = basketStore.length === 0;
-
-	const { clearCart } = useOrderStore.getState();
-
-	const handleClearCart = (statusModal: Status, clearCart?: () => void) => {
-		if (clearCart) clearCart();
-		setStatus(statusModal);
-	};
-
-	const onSubmit: SubmitHandler<FormValues> = async (data) => {
-		if (status === 'loading') return;
-		setStatus('loading');
-		const cleanedPhone = data.phone.replace(/\D/g, '');
-		try {
-			const orderData = {
-				phone: cleanedPhone,
-				cart: basketStore.map(({ id, quantity }: CartIdQuantity) => ({
-					id,
-					quantity,
-				})),
-			};
-			const response = await createOrder(orderData);
-			if (response.success === 1) {
-				setStatus('success');
-				clearCart();
-				reset({ phone: '' }, { keepErrors: false, keepDirty: false, keepTouched: false });
-			} else {
-				setStatus('error');
-				console.error(response.error || 'Unknown API error');
-			}
-		} catch (error) {
-			setStatus('error');
-			console.error(error);
-		}
-	};
+	const isOrderButtonDisabled =
+		Object.keys(errors).length > 0 || status === 'loading' || cart.length === 0;
+	const isClearButtonDisabled = cart.length === 0;
+	const isModalOpen = ['success', 'error', 'showClearModal'].includes(status);
 
 	return (
 		<form
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(submitOrder)}
 			className={styles.basket}
 		>
 			<div className={styles.container}>
 				<h2 className={styles.title}>{BASKET_MESSAGES.title}</h2>
 				<button
 					type='button'
-					onClick={() => handleClearCart('showClearModal')}
+					onClick={() => setStatus('showClearModal')}
 					className={styles.clear}
-					disabled={disableClearButton}
+					disabled={isClearButtonDisabled}
 				>
 					<p>{BASKET_MESSAGES.clearButton}</p>
 				</button>
@@ -84,42 +52,42 @@ export const Basket = () => {
 			<TableGoods />
 
 			<div className={styles.wrapper}>
-				<Input
-					{...register('phone', {
+				<Controller
+					name='phone'
+					control={control}
+					rules={{
 						required: BASKET_MESSAGES.phoneRequired,
-						validate: (value) => {
-							const digits = value.replace(/\D/g, '');
-							return digits.length === 11 || BASKET_MESSAGES.phoneInvalidLength;
+						minLength: {
+							value: 11,
+							message: BASKET_MESSAGES.phoneInvalidLength,
 						},
-					})}
-					placeholder={BASKET_MESSAGES.phonePlaceholder}
-					disabled={status === 'loading'}
+						maxLength: {
+							value: 11,
+							message: BASKET_MESSAGES.phoneInvalidLength,
+						},
+					}}
+					render={({ field }) => (
+						<PhoneMask
+							{...field}
+							placeholder={BASKET_MESSAGES.phonePlaceholder}
+							disabled={status === 'loading'}
+						/>
+					)}
 				/>
 				{errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
 				<Button
 					text={BASKET_MESSAGES.orderButton}
-					disabled={isFormDisabled}
+					disabled={isOrderButtonDisabled}
 					type='submit'
 					loading={status === 'loading'}
 				/>
 			</div>
-			<Modal
-				isOpen={status === 'success' || status === 'error' || status === 'showClearModal'}
-				onClose={() => setStatus('idle')}
-			>
-				{status === 'success' && <h2>{BASKET_MESSAGES.orderSuccess}</h2>}
-				{status === 'error' && <h2>{BASKET_MESSAGES.orderError}</h2>}
-				{status === 'showClearModal' && (
-					<div className={styles.clearModal}>
-						<h2>{BASKET_MESSAGES.clearModalTitle}</h2>
-						<Button
-							className={styles.clearButton}
-							text='Да'
-							onClick={() => handleClearCart('clear', clearCart)}
-						/>
-					</div>
-				)}
-			</Modal>
+			<ModalBasked
+				status={status}
+				setStatus={setStatus}
+				clearCart={clearCart}
+				isModalOpen={isModalOpen}
+			/>
 		</form>
 	);
 };

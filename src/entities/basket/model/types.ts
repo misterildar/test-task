@@ -33,4 +33,11 @@ export interface OrderResponse {
 	error?: string;
 }
 
-export 	type Status = 'idle' | 'loading' | 'success' | 'error' | 'clear' | 'showClearModal';
+export interface ModalBaskedProps {
+	status: Status;
+	setStatus: (status: Status) => void;
+	clearCart: () => void;
+	isModalOpen: boolean;
+}
+
+export type Status = 'idle' | 'loading' | 'success' | 'error' | 'clear' | 'showClearModal';

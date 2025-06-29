@@ -15,7 +15,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 		return (
 			<input
 				ref={ref}
-				maxLength={11}
 				type={tagType}
 				placeholder={placeholder}
 				onChange={onChange}
