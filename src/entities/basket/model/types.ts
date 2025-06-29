@@ -32,3 +32,5 @@ export interface OrderResponse {
 	success: number;
 	error?: string;
 }
+
+export 	type Status = 'idle' | 'loading' | 'success' | 'error' | 'clear' | 'showClearModal';

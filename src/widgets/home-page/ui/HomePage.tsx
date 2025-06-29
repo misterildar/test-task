@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 
 import { Basket } from '@/entities/basket';
+import { HOME_MESSAGES } from '../consts/messages';
 import { ProductCard } from '@/entities/product-card';
 import { Review } from '@/entities/review-card/model/types';
 import { useApiRequest } from '@/shared/hooks/useApiRequest';
@@ -50,11 +51,15 @@ export const HomePage = () => {
 	return (
 		<section className={styles.section}>
 			<div className={styles.title}>
-				<h1 className={styles.h1}>тестовое задание</h1>
+				<h1 className={styles.h1}>{HOME_MESSAGES.title}</h1>
 			</div>
 			<div className={styles.reviews}>
-				{reviewsLoading && <p>Загрузка отзывов...</p>}
-				{reviewsError && <p style={{ color: 'red' }}>Ошибка: {reviewsError}</p>}
+				{reviewsLoading && <p>{HOME_MESSAGES.loadingReviews}</p>}
+				{reviewsError && (
+					<p className={styles.error}>
+						{HOME_MESSAGES.errorPrefix} {reviewsError}
+					</p>
+				)}
 				{!reviewsLoading &&
 					!reviewsError &&
 					reviews.map((review) => (
@@ -79,8 +84,12 @@ export const HomePage = () => {
 				))}
 			</div>
 			<div ref={triggerRef} />
-			{productsLoading && hasMore && <p>Загрузка товаров...</p>}
-			{productsError && <p style={{ color: 'red' }}>Ошибка: {productsError}</p>}
+			{productsLoading && hasMore && <p>{HOME_MESSAGES.loadingProducts}</p>}
+			{productsError && (
+				<p className={styles.error}>
+					{HOME_MESSAGES.errorPrefix} {productsError}
+				</p>
+			)}
 		</section>
 	);
 };

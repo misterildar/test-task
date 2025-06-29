@@ -1,3 +1,5 @@
+@use '@/styles/variables' as *;
+
 .section {
 	display: flex;
 	flex-direction: column;
@@ -14,6 +16,7 @@
 	border-radius: 15px;
 	padding: 20px;
 	background-color: #777;
+	box-shadow: 0 0 5px $white;
 }
 
 .h1 {
@@ -37,4 +40,8 @@
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: auto;
 	gap: 34px;
+}
+
+.error {
+	color: $red;
 }

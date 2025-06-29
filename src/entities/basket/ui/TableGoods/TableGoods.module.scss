@@ -1,0 +1,46 @@
+@use '@/styles/variables' as *;
+
+.tableWrapper {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	background: transparent;
+
+	th,
+	td {
+		text-align: center;
+		padding: 12px 8px;
+		font-family: var(--font-inter);
+	}
+
+	th {
+		background-color: $gray-300;
+		font-weight: 600;
+		font-size: 18px;
+		letter-spacing: 0.05em;
+	}
+
+	tr {
+		border-bottom: 1px solid $gray-700;
+	}
+
+	tbody tr:last-child {
+		border-bottom: none;
+	}
+
+	td {
+		font-size: 16px;
+		font-weight: 400;
+	}
+}
+
+.total {
+	display: flex;
+	justify-content: end;
+	gap: 20px;
+	margin: 40px 20px 0 0;
+}

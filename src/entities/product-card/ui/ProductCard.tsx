@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Product } from '@/entities/product-card';
 import { useOrderStore } from '@/entities/basket';
 import { Button, CounterButton } from '@/shared/ui';
+import { CARD_MESSAGES } from '../consts/messages';
 import { PLACEHOLDER_IMAGE } from '@/shared/lib/constants';
 
 import styles from './ProductCard.module.scss';
@@ -42,7 +43,9 @@ export const ProductCard = ({
 			/>
 			<h2 className={styles.title}>{title}</h2>
 			<p className={styles.description}>{description}</p>
-			<p className={styles.price}>Цена: {price} ₽</p>
+			<p className={styles.price}>
+				{CARD_MESSAGES.price} {price} ₽
+			</p>
 			{isInCart ? (
 				<CounterButton
 					id={id}
@@ -51,7 +54,7 @@ export const ProductCard = ({
 				/>
 			) : (
 				<Button
-					text='Купить'
+					text={CARD_MESSAGES.buy}
 					onClick={handleAddToCart}
 				/>
 			)}
