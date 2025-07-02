@@ -1,15 +1,16 @@
 import { useForm, Controller } from 'react-hook-form';
 
 import { Button } from '@/shared/ui';
+import { FormValues } from '../../model/types';
 import { useOrderStore } from '@/entities/basket';
 import { PhoneMask } from '../PhoneMask/PhoneMask';
 import { TableGoods } from '../TableGoods/TableGoods';
-import { useSubmitOrder } from '../../lib/useSubmitOrder';
-import { FormValues } from '../../model/types';
 import { BASKET_MESSAGES } from '../../consts/messages';
+import { ModalBasked } from '../ModalBasked/ModalBasked';
+import { useSubmitOrder } from '../../model/useSubmitOrder';
+import { validatePhoneLength } from '@/shared/lib/validatePhone';
 
 import styles from './Basket.module.scss';
-import { ModalBasked } from '../ModalBasked/ModalBasked';
 
 export const Basket = () => {
 	const {
@@ -25,12 +26,15 @@ export const Basket = () => {
 	const { status, setStatus, submitOrder } = useSubmitOrder({ reset });
 
 	const cart = useOrderStore((state) => state.cart);
+
 	const clearCart = useOrderStore((state) => state.clearCart);
+
+	const isClearButtonDisabled = cart.length === 0;
+
+	const isModalOpen = ['success', 'error', 'showClearModal'].includes(status);
 
 	const isOrderButtonDisabled =
 		Object.keys(errors).length > 0 || status === 'loading' || cart.length === 0;
-	const isClearButtonDisabled = cart.length === 0;
-	const isModalOpen = ['success', 'error', 'showClearModal'].includes(status);
 
 	return (
 		<form
@@ -55,17 +59,7 @@ export const Basket = () => {
 				<Controller
 					name='phone'
 					control={control}
-					rules={{
-						required: BASKET_MESSAGES.phoneRequired,
-						minLength: {
-							value: 11,
-							message: BASKET_MESSAGES.phoneInvalidLength,
-						},
-						maxLength: {
-							value: 11,
-							message: BASKET_MESSAGES.phoneInvalidLength,
-						},
-					}}
+					rules={validatePhoneLength}
 					render={({ field }) => (
 						<PhoneMask
 							{...field}

@@ -1,8 +1,9 @@
 import { memo } from 'react';
+import { ReviewCardProps } from '../../model/types';
 
 import styles from './ReviewCard.module.scss';
 
-export const ReviewCard = memo(({ text }: { text: string }) => {
+export const ReviewCard = memo(({ text }: ReviewCardProps) => {
 	return (
 		<div
 			className={styles.card}

@@ -3,7 +3,7 @@ import { Button, Modal } from '@/shared/ui';
 import { BASKET_MESSAGES } from '../../consts/messages';
 import { Status, ModalBaskedProps } from '../../model/types';
 
-import styles from '../Basked/Basket.module.scss';
+import styles from './ModalBasked.module.scss';
 
 export const ModalBasked = ({ status, setStatus, clearCart, isModalOpen }: ModalBaskedProps) => {
 	const modalContentMap: Record<Status, ReactNode> = {
@@ -18,19 +18,19 @@ export const ModalBasked = ({ status, setStatus, clearCart, isModalOpen }: Modal
 					text={BASKET_MESSAGES.clearModalConfirmButton}
 					onClick={() => {
 						clearCart();
-						setStatus('idle');
+						setStatus('ready');
 					}}
 				/>
 			</div>
 		),
-		idle: null,
+		ready: null,
 		loading: null,
 	};
 
 	return (
 		<Modal
 			isOpen={isModalOpen}
-			onClose={() => setStatus('idle')}
+			onClose={() => setStatus('ready')}
 		>
 			{modalContentMap[status]}
 		</Modal>

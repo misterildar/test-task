@@ -25,3 +25,15 @@ export interface ProductRequestParams {
 	page: number;
 	page_size: number;
 }
+
+export type StatusDetails = 'error' | 'isLoading' | 'ready';
+
+export interface ModalDetailsProps {
+	status: StatusDetails;
+	onClose: () => void;
+	isModalOpen: boolean;
+}
+
+export type ProductDetailsProps = {
+	productId: string;
+};

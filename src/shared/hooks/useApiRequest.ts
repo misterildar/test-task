@@ -20,6 +20,7 @@ export const useApiRequest = <T, P>(initialData?: T) => {
 		} catch (e: unknown) {
 			if (e instanceof Error) {
 				setError(e.message || 'Что-то пошло не так');
+				console.error(e, e.message);
 			} else {
 				setError('Что-то пошло не так');
 			}

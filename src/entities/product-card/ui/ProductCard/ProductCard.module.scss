@@ -3,24 +3,27 @@
 .card {
 	display: flex;
 	flex-direction: column;
-	align-items: stretch;
 	justify-content: space-between;
 	padding: 10px;
 	border-radius: 15px;
 	background-color: $gray-300;
-	color: $black;
-	gap: 10px;
-	width: 100%;
-	box-sizing: border-box;
-	overflow-wrap: break-word;
-	word-break: break-word;
+	gap: 20px;
 	box-shadow: 0 0 5px $white;
+}
+
+.link {
+	display: flex;
+	flex-direction: column;
+	color: $black;
+	gap: 20px;
+	text-decoration: none;
+	color: $black;
 }
 
 .image {
 	border-radius: 15px;
 	width: 100%;
-	height: auto;
+	height: 236px;
 }
 
 @mixin baseTitle {

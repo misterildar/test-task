@@ -48,7 +48,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 			>
 				&times;
 			</button>
-			<div className={styles.content}>{children}</div>
+			{children}
 		</dialog>
 	);
 };

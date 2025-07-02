@@ -53,13 +53,9 @@ export const HomePage = () => {
 			<div className={styles.title}>
 				<h1 className={styles.h1}>{HOME_MESSAGES.title}</h1>
 			</div>
+			{reviewsLoading && <p>{HOME_MESSAGES.loadingReviews}</p>}
+			{reviewsError && <p className={styles.error}>{HOME_MESSAGES.errorPrefix}</p>}
 			<div className={styles.reviews}>
-				{reviewsLoading && <p>{HOME_MESSAGES.loadingReviews}</p>}
-				{reviewsError && (
-					<p className={styles.error}>
-						{HOME_MESSAGES.errorPrefix} {reviewsError}
-					</p>
-				)}
 				{!reviewsLoading &&
 					!reviewsError &&
 					reviews.map((review) => (

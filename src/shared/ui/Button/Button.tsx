@@ -5,9 +5,9 @@ interface ButtonProps {
 	text: string;
 	onClick?: () => void;
 	disabled?: boolean;
-	type?: 'button' | 'reset' | 'submit';
-	className?: string;
 	loading?: boolean;
+	className?: string;
+	type?: 'button' | 'reset' | 'submit';
 }
 
 export const Button = ({

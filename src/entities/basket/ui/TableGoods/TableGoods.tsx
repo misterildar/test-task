@@ -1,5 +1,6 @@
 import { useOrderStore } from '../../model/store';
 import { TABLE_MESSAGES } from '../../consts/messages';
+import { basketTableColumns } from '../../consts/basketTableColumns';
 
 import styles from './TableGoods.module.scss';
 
@@ -13,19 +14,17 @@ export const TableGoods = () => {
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						<th>{TABLE_MESSAGES.headerName}</th>
-						<th>{TABLE_MESSAGES.headerQuantity}</th>
-						<th>{TABLE_MESSAGES.headerPrice}</th>
-						<th>{TABLE_MESSAGES.headerCost}</th>
+						{basketTableColumns.map(({ key, label }) => (
+							<th key={key}>{label}</th>
+						))}
 					</tr>
 				</thead>
 				<tbody>
-					{basketStore.map(({ title, price, quantity, id }) => (
-						<tr key={id}>
-							<td>{title}</td>
-							<td>{quantity}</td>
-							<td>{price}</td>
-							<td>{price * quantity}</td>
+					{basketStore.map((item) => (
+						<tr key={item.id}>
+							{basketTableColumns.map(({ key, render }) => (
+								<td key={key}>{render(item)}</td>
+							))}
 						</tr>
 					))}
 				</tbody>

@@ -1,17 +1,11 @@
+import clsx from 'clsx';
 import { IMaskInput } from 'react-imask';
 import React, { forwardRef, Ref } from 'react';
-import clsx from 'clsx';
-import { Input } from '@/shared/ui';
-import inputStyles from '@/shared/ui/Input/Input.module.scss';
 
-interface InputMaskProps {
-	onChange: (value: string) => void;
-	name: string;
-	value: string;
-	disabled?: boolean;
-	className?: string;
-	placeholder?: string;
-}
+import { Input } from '@/shared/ui';
+import { InputMaskProps } from '../../model/types';
+
+import inputStyles from '@/shared/ui/Input/Input.module.scss';
 
 export const PhoneMask = forwardRef<HTMLInputElement, InputMaskProps>(
 	({ onChange, className, ...props }, ref) => {

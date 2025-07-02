@@ -1,3 +1,6 @@
+import { ReactNode } from 'react';
+import { UseFormReset } from 'react-hook-form';
+
 export interface FormValues {
 	phone: string;
 }
@@ -40,4 +43,23 @@ export interface ModalBaskedProps {
 	isModalOpen: boolean;
 }
 
-export type Status = 'idle' | 'loading' | 'success' | 'error' | 'clear' | 'showClearModal';
+export interface InputMaskProps {
+	onChange: (value: string) => void;
+	name: string;
+	value: string;
+	disabled?: boolean;
+	className?: string;
+	placeholder?: string;
+}
+
+export interface Column<T> {
+	key: string;
+	label: string;
+	render: (item: T) => ReactNode;
+}
+
+export interface UseSubmitOrderProps {
+	reset: UseFormReset<FormValues>;
+}
+
+export type Status = 'ready' | 'loading' | 'success' | 'error' | 'clear' | 'showClearModal';
