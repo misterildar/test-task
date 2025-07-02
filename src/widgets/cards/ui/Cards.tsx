@@ -1,6 +1,5 @@
 import { CARD_MESSAGES } from '../consts/messages';
 import { ProductCard } from '@/entities/product-card';
-import { useProductCartStore } from '@/entities/product-card';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { useProductPagination } from '@/shared/hooks/useProductPagination';
 
@@ -10,12 +9,11 @@ export const Cards = () => {
 	const {
 		hasMore,
 		loadMore,
+		products,
 		initialLoadComplete,
 		error: productsError,
 		isLoading: productsLoading,
 	} = useProductPagination();
-
-	const products = useProductCartStore((state) => state.products);
 
 	const { triggerRef } = useInfiniteScroll({
 		hasMore,
@@ -24,8 +22,9 @@ export const Cards = () => {
 		options: { threshold: 0.3 },
 		enabled: initialLoadComplete,
 	});
+
 	return (
-		<section className={styles.section}>
+		<section>
 			<div className={styles.products}>
 				{products.map((product, index) => (
 					<ProductCard
@@ -39,13 +38,13 @@ export const Cards = () => {
 					/>
 				))}
 			</div>
-			<div ref={triggerRef} />
 			{productsLoading && hasMore && <p>{CARD_MESSAGES.loadingProducts}</p>}
 			{productsError && (
 				<p className={styles.error}>
 					{CARD_MESSAGES.errorPrefix} {productsError}
 				</p>
 			)}
+			<div ref={triggerRef} />
 		</section>
 	);
 };
