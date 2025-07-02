@@ -38,16 +38,17 @@ export const ProductCard = ({
 				scroll={false}
 				className={styles.link}
 			>
-				<Image
-					src={src}
-					alt={title}
-					width={315}
-					height={236}
-					onError={() => setSrc(PLACEHOLDER_IMAGE)}
-					className={styles.image}
-					unoptimized
-					priority={priority}
-				/>
+				<div className={styles.imageWrapper}>
+					<Image
+						src={src}
+						alt={title}
+						fill
+						style={{ objectFit: 'contain' }}
+						onError={() => setSrc(PLACEHOLDER_IMAGE)}
+						unoptimized
+						priority={priority}
+					/>
+				</div>
 				<h2 className={styles.title}>{title}</h2>
 				<p className={styles.description}>{description}</p>
 				<p className={styles.price}>

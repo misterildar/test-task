@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ReviewCardProps } from '../../model/types';
+import { ReviewCardProps } from '../model/types';
 
 import styles from './ReviewCard.module.scss';
 

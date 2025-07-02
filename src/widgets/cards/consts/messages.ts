@@ -1,6 +1,4 @@
-export const HOME_MESSAGES = {
-	title: 'тестовое задание',
-	loadingReviews: 'Загрузка отзывов...',
+export const CARD_MESSAGES = {
 	loadingProducts: 'Загрузка товаров...',
 	errorPrefix: 'Произошла ошибка при загрузке данных',
 };

@@ -22,8 +22,13 @@ export const TableGoods = () => {
 				<tbody>
 					{basketStore.map((item) => (
 						<tr key={item.id}>
-							{basketTableColumns.map(({ key, render }) => (
-								<td key={key}>{render(item)}</td>
+							{basketTableColumns.map(({ key, label, render }) => (
+								<td
+									key={key}
+									data-label={label}
+								>
+									{render(item)}
+								</td>
 							))}
 						</tr>
 					))}
