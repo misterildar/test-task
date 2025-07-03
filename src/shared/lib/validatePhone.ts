@@ -1,4 +1,4 @@
-import { BASKET_MESSAGES } from '../../entities/basket/consts/messages';
+import { BASKET_MESSAGES } from '@/entities/basket/consts/messages';
 
 export const validatePhoneLength = {
 	required: BASKET_MESSAGES.phoneRequired,

@@ -8,7 +8,7 @@ import { TableGoods } from '../TableGoods/TableGoods';
 import { BASKET_MESSAGES } from '../../consts/messages';
 import { ModalBasked } from '../ModalBasked/ModalBasked';
 import { useSubmitOrder } from '../../model/useSubmitOrder';
-import { validatePhoneLength } from '@/shared/lib/validatePhone';
+import { validatePhoneLength } from '@/shared/lib';
 
 import styles from './Basket.module.scss';
 

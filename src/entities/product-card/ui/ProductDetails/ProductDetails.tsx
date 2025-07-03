@@ -7,7 +7,7 @@ import { Button, CounterButton } from '@/shared/ui';
 import { useProduct } from '../../model/useProduct';
 import { ProductDetailsProps } from '../../model/types';
 import { Basket, useOrderStore } from '@/entities/basket';
-import { PLACEHOLDER_IMAGE } from '@/shared/lib/constants';
+import { PLACEHOLDER_IMAGE } from '@/shared/lib';
 import { ModalDetails } from '../ModalDetails/ModalDetails';
 import { CARD_MESSAGES } from '@/entities/product-card/consts/messages';
 

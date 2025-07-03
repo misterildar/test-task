@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ScrollToTopOnRouteChange } from '@/shared/lib';
 
 import '@/shared/styles/globals.scss';
 
@@ -29,6 +30,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className={inter.variable}>
+				<ScrollToTopOnRouteChange />
 				<main>{children}</main>
 			</body>
 		</html>

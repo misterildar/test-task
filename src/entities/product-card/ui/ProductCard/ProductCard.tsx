@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useOrderStore } from '@/entities/basket';
 import { Button, CounterButton } from '@/shared/ui';
 import { CARD_MESSAGES } from '../../consts/messages';
-import { PLACEHOLDER_IMAGE } from '@/shared/lib/constants';
+import { PLACEHOLDER_IMAGE } from '@/shared/lib';
 import { Product } from '@/entities/product-card/model/types';
 
 import styles from './ProductCard.module.scss';

@@ -1,7 +1,7 @@
 import { CARD_MESSAGES } from '../consts/messages';
 import { ProductCard } from '@/entities/product-card';
-import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import { useProductPagination } from '@/shared/hooks/useProductPagination';
+import { useInfiniteScroll } from '@/shared/hooks';
+import { useProductPagination } from '@/shared/hooks';
 
 import styles from './Cards.module.scss';
 

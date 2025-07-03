@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { useApiRequest } from '@/shared/hooks/useApiRequest';
+import { useApiRequest } from '@/shared/hooks';
 import { fetchProductCart, useProductCartStore } from '@/entities/product-card';
 import { ProductRequestParams, ProductsResponse } from '@/entities/product-card/model/types';
 
