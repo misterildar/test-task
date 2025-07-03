@@ -8,17 +8,18 @@ export const useApiRequest = <T, P>(initialData?: T) => {
 
 	const sendRequest = useCallback(async (requestFn: (params?: P) => Promise<T>, params?: P) => {
 		setError(null);
-
 		loadingTimer.current = setTimeout(() => {
 			setIsLoading(true);
 		}, 300);
-
 		try {
 			const result = await requestFn(params);
 			setData(result);
 			return result;
 		} catch (e: unknown) {
 			if (e instanceof Error) {
+				if (e.message === 'Запрос отменён') {
+					return undefined;
+				}
 				setError(e.message || 'Что-то пошло не так');
 				console.error(e, e.message);
 			} else {
