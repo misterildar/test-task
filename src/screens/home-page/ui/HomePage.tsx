@@ -7,7 +7,6 @@ import { ScrollToTopButton } from '@/shared/ui';
 import { HOME_MESSAGES } from '../consts/messages';
 
 import styles from './HomePage.module.scss';
-import Link from 'next/link';
 
 export const HomePage = () => {
 	return (
@@ -15,7 +14,6 @@ export const HomePage = () => {
 			<div className={styles.title}>
 				<h1 className={styles.h1}>{HOME_MESSAGES.title}</h1>
 			</div>
-			<Link href='/new-page'>To new page</Link>
 			<Reviews />
 			<Basket />
 			<Cards />

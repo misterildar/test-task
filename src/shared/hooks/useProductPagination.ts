@@ -1,41 +1,48 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
+import useSWRInfinite from 'swr/infinite';
 
-import { useApiRequest } from '@/shared/hooks';
-import { fetchProductCart, useProductCartStore } from '@/entities/product-card';
+import { useProductCartStore } from '@/entities/product-card';
+import { getProducts } from '@/entities/product-card/model/api';
 import { ProductRequestParams, ProductsResponse } from '@/entities/product-card/model/types';
 
 export const useProductPagination = () => {
-	const products = useProductCartStore((state) => state.products);
-	const setProducts = useProductCartStore((state) => state.setProducts);
-	const addProducts = useProductCartStore((state) => state.addProducts);
+	const { products, setProducts } = useProductCartStore();
 
-	const [page, setPage] = useState(1);
-	const [hasMore, setHasMore] = useState(true);
-	const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+	const getKey = (pageIndex: number, previousPageData: ProductsResponse | null) => {
+		if (previousPageData && previousPageData.items.length === 0) return null;
+		return ['products', { page: pageIndex + 1, page_size: 20 }];
+	};
 
-	const { error, isLoading, sendRequest } = useApiRequest<ProductsResponse, ProductRequestParams>();
+	const fetcher = (key: [string, ProductRequestParams]) => {
+		const [, params] = key;
+		return getProducts(params);
+	};
+
+	const { data, error, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher, {
+		revalidateOnFocus: false,
+	});
 
 	useEffect(() => {
-		sendRequest(fetchProductCart, { page: 1, page_size: 20 }).then((data) => {
-			if (data?.items) {
-				setProducts(data.items);
-			}
-			setInitialLoadComplete(true);
-		});
-	}, [sendRequest, setProducts]);
+		if (data) {
+			const allProducts = data.flatMap((page) => page.items);
+			setProducts(allProducts);
+		}
+	}, [data, setProducts]);
 
-	const loadMore = useCallback(() => {
-		if (isLoading || !hasMore || !initialLoadComplete) return;
-		const nextPage = page + 1;
-		sendRequest(fetchProductCart, { page: nextPage, page_size: 20 }).then((data) => {
-			if (data?.items && data.items.length > 0) {
-				addProducts(data.items);
-				setPage(nextPage);
-			} else {
-				setHasMore(false);
-			}
-		});
-	}, [page, isLoading, hasMore, sendRequest, addProducts, initialLoadComplete]);
+	const hasMore = data ? data[data.length - 1].items.length > 0 : true;
 
-	return { products, isLoading, error, hasMore, loadMore, initialLoadComplete };
+	const loadMore = () => {
+		if (!hasMore || isValidating) return;
+		setSize(size + 1);
+	};
+
+	return {
+		products,
+		isLoading: !data && !error,
+		error,
+		hasMore,
+		loadMore,
+		initialLoadComplete: !!data,
+		isValidating,
+	};
 };

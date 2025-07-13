@@ -4,11 +4,11 @@ import { Button } from '@/shared/ui';
 import { FormValues } from '../../model/types';
 import { useOrderStore } from '@/entities/basket';
 import { PhoneMask } from '../PhoneMask/PhoneMask';
+import { validatePhoneLength } from '@/shared/lib';
 import { TableGoods } from '../TableGoods/TableGoods';
 import { BASKET_MESSAGES } from '../../consts/messages';
 import { ModalBasked } from '../ModalBasked/ModalBasked';
 import { useSubmitOrder } from '../../model/useSubmitOrder';
-import { validatePhoneLength } from '@/shared/lib';
 
 import styles from './Basket.module.scss';
 

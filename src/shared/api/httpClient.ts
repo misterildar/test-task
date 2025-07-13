@@ -1,14 +1,21 @@
 import { api } from './api';
+import { AxiosRequestConfig } from 'axios';
+import { HttpMethod } from '@/shared/model/types';
 
-export type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
-
-export const httpClient = async <T, C extends object = object>(
+export const httpClient = async <T>(
 	method: HttpMethod,
 	url: string,
-	config?: C
+	data?: unknown,
+	config?: AxiosRequestConfig & { signal?: AbortSignal }
 ): Promise<T> => {
 	try {
-		const response = await api[method]<T>(url, config);
+		const response = await api.request<T>({
+			method,
+			url,
+			data,
+			...config,
+		});
+
 		return response.data;
 	} catch (error: unknown) {
 		if (error && typeof error === 'object' && ('code' in error || 'message' in error)) {

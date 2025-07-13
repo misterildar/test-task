@@ -1,16 +1,11 @@
-import useSWR from 'swr';
-import { httpClient } from '@/shared/api';
-import { REVIEWS_MESSAGES } from '../consts/messages';
 import { ReviewCard } from '@/entities/review-card/';
-import { Review } from '@/entities/review-card/model/types';
+import { REVIEWS_MESSAGES } from '../consts/messages';
+import { useReviews } from '@/entities/review-card/model/useReviews';
 
 import styles from './Reviews.module.scss';
 
 export const Reviews = () => {
-	const fetcher = (url: string, signal: AbortSignal) =>
-		httpClient<Review[]>('get', url, { signal });
-
-	const { data: reviews, error, isLoading, isValidating } = useSWR<Review[]>('/reviews', fetcher);
+	const { reviews, error, isLoading, isValidating } = useReviews();
 
 	return (
 		<section className={styles.section}>

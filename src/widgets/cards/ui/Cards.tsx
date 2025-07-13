@@ -1,24 +1,18 @@
 import { CARD_MESSAGES } from '../consts/messages';
-import { ProductCard } from '@/entities/product-card';
 import { useInfiniteScroll } from '@/shared/hooks';
-import { useProductPagination } from '@/shared/hooks';
+import { ProductCard } from '@/entities/product-card';
+import { useProductPagination } from '@/shared/hooks/useProductPagination';
 
 import styles from './Cards.module.scss';
 
 export const Cards = () => {
-	const {
-		hasMore,
-		loadMore,
-		products,
-		initialLoadComplete,
-		error: productsError,
-		isLoading: productsLoading,
-	} = useProductPagination();
+	const { products, hasMore, loadMore, initialLoadComplete, error, isLoading, isValidating } =
+		useProductPagination();
 
 	const { triggerRef } = useInfiniteScroll({
 		hasMore,
 		onLoadMore: loadMore,
-		isLoading: productsLoading,
+		isLoading,
 		options: { threshold: 0.3 },
 		enabled: initialLoadComplete,
 	});
@@ -38,13 +32,14 @@ export const Cards = () => {
 					/>
 				))}
 			</div>
-			{productsLoading && hasMore && <p>{CARD_MESSAGES.loadingProducts}</p>}
-			{productsError && (
+			{isLoading && hasMore && <p>{CARD_MESSAGES.loadingProducts}</p>}
+			{error && (
 				<p className={styles.error}>
-					{CARD_MESSAGES.errorPrefix} {productsError}
+					{CARD_MESSAGES.errorPrefix} {error.message || error.toString()}
 				</p>
 			)}
 			<div ref={triggerRef} />
+			{isValidating && <p>Обновляем данные...</p>}
 		</section>
 	);
 };
